@@ -28,8 +28,16 @@ struct ContentView: View {
             Map(initialPosition: startPosition) {
                 // Updating the map by creating markers for each one of the locations in our Array
                 ForEach(locations) { location in
-                    Marker(location.name,
-                           coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+                    // We will place a custom SwiftUI View instead of a regular Marker balloon by using Annotation
+                    Annotation(location.name,
+                               coordinate: location.coordinate) {
+                        Image(systemName: "star.circle")
+                            .resizable()
+                            .foregroundStyle(.red)
+                            .frame(width: 44, height: 44)
+                            .background(.white)
+                            .clipShape(.circle)
+                    }
                 }
             }
                 .mapStyle(.hybrid) // Satellite pictures + place and road names
