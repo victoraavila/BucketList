@@ -10,7 +10,8 @@ import MapKit
 
 // Creating a type definition of the locations we want to store. This MUST conform to Identifiable (so we can create many location markers in our app), Codable (so we can load and save map data easily) and Equatable (so we can find one particular location in an Array of locations). The struct will have an identifier (so we can create it dynamically), a name, a description, a latitude and a longitude.
 struct Location: Codable, Equatable, Identifiable {
-    let id: UUID
+    // When we change the name from the default New location to Glasgow, for example, the == function inside Location will tell that although the name was changed, the new Marker is the same as the old Marker because they've got the same id. For this reason, id must be a var instead of let.
+    var id: UUID
     var name: String
     var description: String
     
