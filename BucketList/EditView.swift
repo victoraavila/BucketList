@@ -15,6 +15,8 @@ import SwiftUI
 // 3. Each page has a lot of information, including coordinates, terms, etc.
 // We will use 3 linked structs to store this.
 
+// By default, Wikipedia pages are returned sorted by their internal id (that's why we sort them alphabetically).
+
 struct EditView: View {
     // Showing something while the fetching is being done, which means conditionally showing different UIs, i.e., using an enum that stores a load State
     enum LoadingState {
@@ -53,7 +55,7 @@ struct EditView: View {
                             
                             + Text(": ") + // The + operators make this one big Text View with different styling inside.
                             
-                            Text("Page description here")
+                            Text(page.description)
                                 .italic()
                         }
                     case .failed:
@@ -105,7 +107,7 @@ struct EditView: View {
             let items = try JSONDecoder().decode(Result.self, from: data) // Decoding
             
             // We've got actual pages to work with
-            pages = items.query.pages.values.sorted { $0.title < $1.title }
+            pages = items.query.pages.values.sorted() // Using the internal < function to do sorting comparisons for us
             loadingState = .loaded
         } catch { // If Fetching or Decoding fails
             loadingState = .failed
