@@ -8,19 +8,30 @@
 import MapKit
 import SwiftUI
 
+// MVVM is an architectural design pattern: Model, View, ViewModel
+// The name is counterintuituve: we will use it as a way of getting our program state and logic out of our view structs.
+
+// It's a good idea to look at this View and analyse in which places data manipulation is being done, so we can move it elsewhere. For example, saving a new location and updating a location. Specially, it is simpler to move snippets where the variables are already in the ViewModel.
+// Reading data from a ViewModel is fine, but writing to a ViewModel isn't. Why? Because the exercise is to separate logic from our layout.
+
+// This approach is also better to write tests in the future.
+
+// Why didn't we use MVVM earlier in the course?
+// 1. It works really badly with SwiftData, at least by now.
+// 2. There are lots of ways of structuring projects, so experiment different approaches to see which fits you.
 struct ContentView: View {
     let startPosition = MapCameraPosition.region(
         MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 56, longitude: -3),
                            span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
     )
     
-    @State private var locations = [Location]()
-    @State private var selectedPlace: Location?
+    // ContentView has no idea that viewModel is saving and loading data, for example
+    @State private var viewModel = ViewModel() // Since we used extensions, we get specifically the ViewModel related to ContentView
     
     var body: some View {
         MapReader { proxy in
             Map(initialPosition: startPosition) {
-                ForEach(locations) { location in
+                ForEach(viewModel.locations) { location in
                     Annotation(location.name,
                                coordinate: location.coordinate) {
                         Image(systemName: "star.circle")
@@ -30,7 +41,7 @@ struct ContentView: View {
                             .background(.white)
                             .clipShape(.circle)
                             .onLongPressGesture {
-                                selectedPlace = location
+                                viewModel.selectedPlace = location
                             }
                     }
                 }
@@ -39,21 +50,20 @@ struct ContentView: View {
             
             .onTapGesture { position in
                 if let coordinate = proxy.convert(position, from: .local) {
-                    let newLocation = Location(id: UUID(), name: "New location", description: "", latitude: coordinate.latitude, longitude: coordinate.longitude)
-                    locations.append(newLocation)
+                    viewModel.addLocation(at: coordinate)
                 }
             }
             
-            .sheet(item: $selectedPlace) { place in
-                EditView(location: place) { newLocation in
-                    if let index = locations.firstIndex(of: place) {
-                        locations[index] = newLocation
-                    }
+            .sheet(item: $viewModel.selectedPlace) { place in
+                EditView(location: place) {
+                    viewModel.update(location: $0)
                 }
             }
         }
     }
 }
+
+// Command + . exits the app in the Simulator
 
 #Preview {
     ContentView()
