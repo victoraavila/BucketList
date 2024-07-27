@@ -7,6 +7,7 @@
 
 import CoreLocation // So we have CLLocationCoordinate2D()
 import Foundation
+import LocalAuthentication
 import MapKit
 
 // This will handle our Map work by creating a new class that manages our data and manipulates it on behalf of ContentView
@@ -30,6 +31,13 @@ extension ContentView { // Therefore, this is the ViewModel for ContentView.
         // We don't need to initialize locations here, since it will be initialized at the init()
         private(set) var locations: [Location] // Classes don't have @State and they're not private (so they can be read elsewhere)
         var selectedPlace: Location?
+        
+        // We're going to require users to authenticate using FaceID, TouchID or OpticID (Vision Pro) in order to see their saved locations, since this is private data.
+        // 1. Add this variable to track whether the app is unlocked.
+        // 2. Add the FaceID permission request to our Project Configuration options. (BucketList > BucketList (Targets) > Info Tab > Right click any and choose Add Row > Select Privacy - Face ID Usage Description > Insert "Please authenticate yourself to unlock places." in the corresponding value.
+        // 3. Import LocalAuthentication.
+        // 4. Since the code for biometric authentication is ObjectiveC, is good to write it far from SwiftUI. We will do that inside authenticate().
+        var isUnlocked = false
         
         // We will use this path when loading and saving the Codable object
         // We defined it as a constant so we don't need to change in both places when we need to change it
@@ -76,5 +84,27 @@ extension ContentView { // Therefore, this is the ViewModel for ContentView.
             }
         }
         
+        // Creating a LAContext so we can check and perform biometric authentication
+        // 1. Ask if our device is capable of doing authentication;
+        // 2. If so, we'll start the request and provide a closure to run when it completes;
+        // 3. When it finishes, if the result is successful, set isUnlocked to true.
+        func authenticate() {
+            let context = LAContext()
+            var error: NSError? // Handle any errors that happpen (ObjectiveC stuff)
+            
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                let reason = "Please authenticate yourself to unlock your places." // This string is for TouchId. The string put in Info.plist is for FaceID.
+                
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authentaticationError in
+                    if success {
+                        self.isUnlocked = true
+                    } else {
+                        // error
+                    }
+                }
+            } else {
+                // no biometrics (the user has an iPod Touch or haven't enabled biometrics, etc.)
+            }
+        }
     }
 }
