@@ -37,7 +37,10 @@ extension ContentView { // Therefore, this is the ViewModel for ContentView.
         // 2. Add the FaceID permission request to our Project Configuration options. (BucketList > BucketList (Targets) > Info Tab > Right click any and choose Add Row > Select Privacy - Face ID Usage Description > Insert "Please authenticate yourself to unlock places." in the corresponding value.
         // 3. Import LocalAuthentication.
         // 4. Since the code for biometric authentication is ObjectiveC, is good to write it far from SwiftUI. We will do that inside authenticate().
-        var isUnlocked = false
+//        var isUnlocked = false
+        var isUnlocked = true
+        
+        var mapMode = "Standard"
         
         // We will use this path when loading and saving the Codable object
         // We defined it as a constant so we don't need to change in both places when we need to change it
