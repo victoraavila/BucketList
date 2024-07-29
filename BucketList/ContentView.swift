@@ -64,8 +64,11 @@ struct ContentView: View {
                 }
                 
                 HStack {
-                    Button("Standard") {
+                    Button {
                         viewModel.mapMode = "Standard"
+                    } label: {
+                        Text("Standard")
+                            .underline(viewModel.mapMode == "Standard" ? true : false)
                     }
                     .foregroundStyle(.black)
                     
@@ -73,8 +76,11 @@ struct ContentView: View {
                         .background(.black)
                         .frame(width: 1, height: 20)
                     
-                    Button("Hybrid") {
+                    Button {
                         viewModel.mapMode = "Hybrid"
+                    } label: {
+                        Text("Hybrid")
+                            .underline(viewModel.mapMode == "Hybrid" ? true : false)
                     }
                     .foregroundStyle(.black)
                 }
