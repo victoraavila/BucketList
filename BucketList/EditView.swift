@@ -44,7 +44,7 @@ struct EditView: View {
             .navigationTitle("Place details")
             .toolbar {
                 Button("Save") {
-                    var newLocation = viewModel.updateLocation()
+                    let newLocation = viewModel.updateLocation()
                     
                     onSave(newLocation)
                     dismiss()

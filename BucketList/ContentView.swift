@@ -21,7 +21,7 @@ import SwiftUI
 // 2. There are lots of ways of structuring projects, so experiment different approaches to see which fits you.
 struct ContentView: View {
     let startPosition = MapCameraPosition.region(
-        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 56, longitude: -3),
+        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: -18.913664, longitude: -48.266560),
                            span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10))
     )
     
