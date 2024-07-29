@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		963BE3E22C57458F00265CF7 /* EditView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963BE3E12C57458F00265CF7 /* EditView-ViewModel.swift */; };
 		966038FC2C54B0D60040AE01 /* ContentView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966038FB2C54B0D60040AE01 /* ContentView-ViewModel.swift */; };
 		96B247402C4F60F80045B597 /* BucketListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B2473F2C4F60F80045B597 /* BucketListApp.swift */; };
 		96B247422C4F60F80045B597 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B247412C4F60F80045B597 /* ContentView.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		963BE3E12C57458F00265CF7 /* EditView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditView-ViewModel.swift"; sourceTree = "<group>"; };
 		966038FB2C54B0D60040AE01 /* ContentView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView-ViewModel.swift"; sourceTree = "<group>"; };
 		96B2473C2C4F60F80045B597 /* BucketList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BucketList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96B2473F2C4F60F80045B597 /* BucketListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketListApp.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			children = (
 				96B2473F2C4F60F80045B597 /* BucketListApp.swift */,
 				96B247412C4F60F80045B597 /* ContentView.swift */,
+				963BE3E12C57458F00265CF7 /* EditView-ViewModel.swift */,
 				966038FB2C54B0D60040AE01 /* ContentView-ViewModel.swift */,
 				96FBA8CF2C50A2AE0094DF3F /* Location.swift */,
 				96FBA8CD2C50A2AE0094DF3F /* EditView.swift */,
@@ -152,6 +155,7 @@
 				96B247422C4F60F80045B597 /* ContentView.swift in Sources */,
 				966038FC2C54B0D60040AE01 /* ContentView-ViewModel.swift in Sources */,
 				96FBA8D42C50ADC40094DF3F /* Result.swift in Sources */,
+				963BE3E22C57458F00265CF7 /* EditView-ViewModel.swift in Sources */,
 				96B247402C4F60F80045B597 /* BucketListApp.swift in Sources */,
 				96FBA8D22C50A2AE0094DF3F /* Location.swift in Sources */,
 				96FBA8D02C50A2AE0094DF3F /* EditView.swift in Sources */,
