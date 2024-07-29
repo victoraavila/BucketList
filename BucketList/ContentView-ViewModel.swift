@@ -37,8 +37,14 @@ extension ContentView { // Therefore, this is the ViewModel for ContentView.
         // 2. Add the FaceID permission request to our Project Configuration options. (BucketList > BucketList (Targets) > Info Tab > Right click any and choose Add Row > Select Privacy - Face ID Usage Description > Insert "Please authenticate yourself to unlock places." in the corresponding value.
         // 3. Import LocalAuthentication.
         // 4. Since the code for biometric authentication is ObjectiveC, is good to write it far from SwiftUI. We will do that inside authenticate().
-//        var isUnlocked = false
-        var isUnlocked = true
+        var isUnlocked = false
+        
+        // Track failed attempts
+        var failedAttempts = 0
+        let maxFailedAttempts = 3
+        var isBlocked = UserDefaults.standard.bool(forKey: "isBlocked")
+        var authFailed = false
+        var noBiometricsAvailable = false
         
         var mapMode = "Standard"
         
@@ -101,12 +107,20 @@ extension ContentView { // Therefore, this is the ViewModel for ContentView.
                 context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authentaticationError in
                     if success {
                         self.isUnlocked = true
+                        self.failedAttempts = 0
                     } else {
                         // error
+                        self.authFailed = true
+                        self.failedAttempts += 1
+                        if self.failedAttempts >= self.maxFailedAttempts {
+                            self.isBlocked = true
+                            UserDefaults.standard.setValue(self.isBlocked, forKey: "isBlocked")
+                        }
                     }
                 }
             } else {
                 // no biometrics (the user has an iPod Touch or haven't enabled biometrics, etc.)
+                self.noBiometricsAvailable = true
             }
         }
     }

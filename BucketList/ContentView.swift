@@ -95,13 +95,29 @@ struct ContentView: View {
                 
             }
         } else { // If we aren't unlocked
-            // Button here to trigger authentication
-            // To test, go to Features > Face ID > Enrolled
-            Button("Unlock Places", action: viewModel.authenticate)
-                .padding()
-                .background(.blue)
-                .foregroundStyle(.white)
-                .clipShape(.capsule)
+            if !viewModel.isBlocked {
+                // Button here to trigger authentication
+                // To test, go to Features > Face ID > Enrolled
+                Button("Unlock Places", action: viewModel.authenticate)
+                    .padding()
+                    .background(.blue)
+                    .foregroundStyle(.white)
+                    .clipShape(.capsule)
+                
+                    .alert("Authentication Failed", isPresented: $viewModel.authFailed) {
+                        Button("OK") { }
+                    } message: {
+                        Text("You have \(viewModel.maxFailedAttempts - viewModel.failedAttempts) tries left.")
+                    }
+                
+                    .alert("Biometrics is not available", isPresented: $viewModel.noBiometricsAvailable) {
+                        Button("OK") { }
+                    } message: {
+                        Text("For safety reasons, we cannot unlock your locations.")
+                    }
+            } else {
+                Text("Maximum number of unlocking attempts reached.")
+            }
         }
     }
 }
