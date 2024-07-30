@@ -87,8 +87,8 @@ struct ContentView: View {
                 .padding()
                 .frame(maxHeight: 40)
                 .background(
-                    Color(UIColor.lightGray)
-                        .opacity(0.6)
+                    .ultraThinMaterial
+                        .opacity(0.7)
                 )
                 .clipShape(.capsule)
                 .padding(.trailing, 10)
